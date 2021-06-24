@@ -31,12 +31,12 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: mongodb
+      apps: mongodb1
   template:
      metadata:
        name: mongodbpod
        labels:
-         app: mongodb
+         apps: mongodb1
      spec:
        volumes:
        - name: mongodb-pvc
@@ -55,3 +55,15 @@ spec:
          volumeMounts:
          - name: mongodb-pvc
            mountPath: /data/db
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo
+spec:
+  type: ClusterIP
+  selector:
+    apps: mongodb1
+  ports:
+  - port: 27017
+    targetPort: 27017
